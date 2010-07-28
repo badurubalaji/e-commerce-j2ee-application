@@ -4,7 +4,7 @@
     Author     : tgiunipero
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -36,7 +36,7 @@
                 </a>
 
                 <img src="#" id="logoText" alt="the affable bean">
-            </div>
+            </div>--%>
 
             <div id="centerColumn">
 
@@ -126,10 +126,10 @@
 
             </div>
 
-            <div id="footer">
+<%--            <div id="footer">
                 <hr>
                 <p id="footerText">[ footer text ]</p>
             </div>
         </div>
     </body>
-</html>
+</html>--%>
