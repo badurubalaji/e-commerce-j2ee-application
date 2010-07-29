@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%--
     Document   : index
     Created on : Jun 9, 2010, 3:59:32 PM
@@ -37,35 +39,28 @@
 
                 <img src="#" id="logoText" alt="the affable bean">
             </div>--%>
+<sql:query var="categories" dataSource="jdbc/affablebean">
+    SELECT * FROM Category
+</sql:query>
 
-            <div id="indexLeftColumn">
-                <div id="welcomeText">
-                    <p>[ welcome text ]</p>
-                </div>
-            </div>
+<div id="indexLeftColumn">
+    <div id="welcomeText">
+        <p>[ welcome text ]</p>
+        categoryImagePath: ${initParam.categoryImagePath}
+        productImagePath: ${initParam.productImagePath}
+    </div>
+</div>
 
-            <div id="indexRightColumn">
-                <div class="categoryBox">
-                    <a href="#">
-                        <span class="categoryLabelText">dairy</span>
-                    </a>
-                </div>
-                <div class="categoryBox">
-                    <a href="#">
-                        <span class="categoryLabelText">meats</span>
-                    </a>
-                </div>
-                <div class="categoryBox">
-                    <a href="#">
-                        <span class="categoryLabelText">bakery</span>
-                    </a>
-                </div>
-                <div class="categoryBox">
-                    <a href="#">
-                        <span class="categoryLabelText">fruit & veg</span>
-                    </a>
-                </div>
-            </div>
+<div id="indexRightColumn">
+    <c:forEach var="category" items="${categories.rows}">
+        <div class="categoryBox">
+            <a href="category?${category.id}">
+                <span class="categoryLabelText">${category.name}</span>
+                <img src="${initParam.categoryImagePath}${category.name}.jpg" alt="${category.name}">
+            </a>
+        </div>
+    </c:forEach>
+</div>
 
 <%--            <div id="footer">
                 <hr>
