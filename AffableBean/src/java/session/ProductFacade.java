@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package session;
 
+import entity.Category;
 import entity.Product;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -20,6 +20,7 @@ import javax.persistence.criteria.Root;
  */
 @Stateless
 public class ProductFacade {
+
     @PersistenceContext(unitName = "AffableBeanPU")
     private EntityManager em;
 
@@ -62,4 +63,8 @@ public class ProductFacade {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    public List<Product> findForCategory(Category category) {
+        return em.createQuery("SELECT p FROM Product p WHERE p.categoryId = :categoryId").
+                setParameter("categoryId", category).getResultList();
+    }
 }

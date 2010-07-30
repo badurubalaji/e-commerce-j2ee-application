@@ -41,7 +41,7 @@
 
                 <img src="#" id="logoText" alt="the affable bean">
             </div>--%>
-<sql:query var="categories" dataSource="jdbc/affablebean">
+<%--<sql:query var="categories" dataSource="jdbc/affablebean">
     SELECT * FROM Category
 </sql:query>
 <sql:query var="selectedCategory" dataSource="jdbc/affablebean">
@@ -51,9 +51,9 @@
 <sql:query var="categoryProducts" dataSource="jdbc/affablebean">
     SELECT * FROM Product WHERE category_id = ?
     <sql:param value="${pageContext.request.queryString}"/>
-</sql:query>
+</sql:query>--%>
 <div id="categoryLeftColumn">
-    <c:forEach var="category" items="${categories.rows}">
+    <c:forEach var="category" items="${categories}">
 
         <c:choose>
             <c:when test="${category.id == pageContext.request.queryString}">
@@ -79,12 +79,12 @@
 <div id="categoryRightColumn">
     <p id="categoryTitle">
         <span style="background-color: #f5eabe; padding: 7px; position: relative;">
-            ${selectedCategory.rows[0].name}</span>
+            ${selectedCategory.name}</span>
     </p>
 
     <table id="productTable">
 
-        <c:forEach var="product" items="${categoryProducts.rows}" varStatus="iter">
+        <c:forEach var="product" items="${categoryProducts}" varStatus="iter">
 
             <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
                 <td>

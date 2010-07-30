@@ -4,19 +4,35 @@
  */
 package controller;
 
+import entity.Category;
+import entity.Product;
 import java.io.IOException;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.CategoryFacade;
+import session.ProductFacade;
 
 /**
  *
  * @author dangkhoa
  */
 public class ControllerServlet extends HttpServlet {
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
+    @EJB
+    private CategoryFacade categoryFacade;
+    @EJB
+    private ProductFacade productFacade;
+
+    @Override
+    public void init() throws ServletException {
+        getServletContext().setAttribute("categories", categoryFacade.findAll());
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -29,11 +45,26 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String userPath = request.getServletPath();
-
+        String url;
+        Category selectedCategory = null;
+        List<Product> categoryProducts = null;
         // if category page is requested
         if (userPath.equals("/category")) {
             // TODO: Implement category request
-            // if cart page is requested
+            // get categoryId from request
+            String categoryId = request.getQueryString();
+
+            if (categoryId != null) {
+                // get selected category
+                selectedCategory = categoryFacade.find(Short.parseShort(categoryId));
+            }
+            // place selected category in request scope
+            request.setAttribute("selectedCategory", selectedCategory);
+            // get all products for selected category
+            categoryProducts = productFacade.findForCategory(selectedCategory);
+            // place category products in request scope
+            request.setAttribute("categoryProducts", categoryProducts);
+
         } else if (userPath.equals("/viewCart")) {
             userPath = "/cart";
             // TODO: Implement cart page request
@@ -47,8 +78,7 @@ public class ControllerServlet extends HttpServlet {
         }
 
         // use RequestDispatcher to forward request internally
-        String url = "/WEB-INF/view" + userPath + ".jsp";
-
+        url = "/WEB-INF/view" + userPath + ".jsp";
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {

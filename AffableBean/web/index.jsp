@@ -39,9 +39,9 @@
 
                 <img src="#" id="logoText" alt="the affable bean">
             </div>--%>
-<sql:query var="categories" dataSource="jdbc/affablebean">
+<%--<sql:query var="categories" dataSource="jdbc/affablebean">
     SELECT * FROM Category
-</sql:query>
+</sql:query>--%>
 
 <div id="indexLeftColumn">
     <div id="welcomeText">
@@ -52,7 +52,7 @@
 </div>
 
 <div id="indexRightColumn">
-    <c:forEach var="category" items="${categories.rows}">
+    <c:forEach var="category" items="${categories}">
         <div class="categoryBox">
             <a href="category?${category.id}">
                 <span class="categoryLabelText">${category.name}</span>
