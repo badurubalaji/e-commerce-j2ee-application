@@ -10,7 +10,7 @@
         <param-name>categoryImagePath</param-name>
         <param-value>img/categories/</param-value>
     </context-param>
-    <servlet>
+    <!--<servlet>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>controller.ControllerServlet</servlet-class>
     </servlet>
@@ -41,7 +41,7 @@
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/purchase</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <session-config>
         <session-timeout>
             30
