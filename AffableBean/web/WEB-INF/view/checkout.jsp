@@ -1,83 +1,114 @@
 <%--
     Document   : checkout
-    Created on : Jun 9, 2010, 3:59:32 PM
+    Created on : May 21, 2010, 12:20:23 AM
     Author     : tgiunipero
 --%>
 
-<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/affablebean.css">
-        <title>The Affable Bean</title>
-    </head>
-    <body>
-        <div id="main">
-            <div id="header">
-                <div id="widgetBar">
+<div id="singleColumn">
 
-                    <div class="headerWidget">
-                        [ language toggle ]
-                    </div>
+    <h2>checkout</h2>
 
-                    <div class="headerWidget"></div>
+    <p>In order to purchase the items in your shopping cart, please provide us with the following information:</p>
 
-                    <div class="headerWidget">
-                        [ shopping cart widget ]
-                    </div>
+    <form action="purchase" method="post">
+        <table id="checkoutTable">
+            <tr>
+                <td><label for="name">name:</label></td>
+                <td class="inputField">
+                    <input type="text"
+                           size="31"
+                           maxlength="45"
+                           id="name"
+                           name="name"
+                           value="${param.name}">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">email:</label></td>
+                <td class="inputField">
+                    <input type="text"
+                           size="31"
+                           maxlength="45"
+                           id="email"
+                           name="email"
+                           value="${param.email}">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="phone">phone:</label></td>
+                <td class="inputField">
+                    <input type="text"
+                           size="31"
+                           maxlength="16"
+                           id="phone"
+                           name="phone"
+                           value="${param.phone}">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="address">address:</label></td>
+                <td class="inputField">
+                    <input type="text"
+                           size="31"
+                           maxlength="45"
+                           id="address"
+                           name="address"
+                           value="${param.address}">
 
-                </div>
+                    <br>
+                    prague
+                    <select name="cityRegion">
+                      <c:forEach begin="1" end="10" var="regionNumber">
+                        <option value="${regionNumber}"
+                                <c:if test="${param.cityRegion eq regionNumber}">selected</c:if>>${regionNumber}</option>
+                      </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="creditcard">credit card number:</label></td>
+                <td class="inputField">
+                    <input type="text"
+                           size="31"
+                           maxlength="19"
+                           id="creditcard"
+                           name="creditcard"
+                           value="${param.creditcard}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="submit purchase">
+                </td>
+            </tr>
+        </table>
+    </form>
 
-                <a href="#">
-                    <img src="#" id="logo" alt="Affable Bean logo">
-                </a>
+    <div id="infoBox">
 
-                <img src="#" id="logoText" alt="the affable bean">
-            </div>--%>
+        <ul>
+            <li>Next-day delivery is guaranteed</li>
+            <li>A &euro; ${initParam.deliverySurcharge}
+                delivery surcharge is applied to all purchase orders</li>
+        </ul>
 
-            <div id="centerColumn">
-
-                <h2>checkout</h2>
-
-                <p>[ text ]</p>
-
-                <form action="purchase" method="post">
-
-                    <table id="checkoutTable">
-                        <tr>
-                            <td>[ form containing fields to
-                                <br>capture customer details ]</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><input type="submit" value="submit button"></td>
-                        </tr>
-
-                    </table>
-
-                </form>
-
-                <div id="infoBox">
-
-                    <div style="border: black solid 1px; height:100px; padding: 10px">
-                        [ purchase conditions ]
-                    </div>
-
-                    <div id="priceBox">
-                        [ purchase calculations:<br>subtotal + delivery charge ]
-                    </div>
-                </div>
-            </div>
-
-            <%--<div id="footer">
-                <hr>
-                <p id="footerText">[ footer text ]</p>
-            </div>
-        </div>
-    </body>
-</html>--%>
+        <table id="priceBox">
+            <tr>
+                <td>subtotal:</td>
+                <td class="checkoutPriceColumn">
+                    &euro; ${cart.subtotal}</td>
+            </tr>
+            <tr>
+                <td>delivery surcharge:</td>
+                <td class="checkoutPriceColumn">
+                    &euro; ${initParam.deliverySurcharge}</td>
+            </tr>
+            <tr>
+                <td class="total">total:</td>
+                <td class="total checkoutPriceColumn">
+                    &euro; ${cart.total}</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,62 +1,16 @@
-<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
     Document   : category
-    Created on : Jun 9, 2010, 3:59:32 PM
+    Created on : May 21, 2010, 12:20:23 AM
     Author     : tgiunipero
 --%>
 
-<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/affablebean.css">
-        <title>The Affable Bean</title>
-    </head>
-    <body>
-        <div id="main">
-            <div id="header">
-                <div id="widgetBar">
-
-                    <div class="headerWidget">
-                        [ language toggle ]
-                    </div>
-
-                    <div class="headerWidget">
-                        [ checkout button ]
-                    </div>
-
-                    <div class="headerWidget">
-                        [ shopping cart widget ]
-                    </div>
-
-                </div>
-
-                <a href="#">
-                    <img src="#" id="logo" alt="Affable Bean logo">
-                </a>
-
-                <img src="#" id="logoText" alt="the affable bean">
-            </div>--%>
-<%--<sql:query var="categories" dataSource="jdbc/affablebean">
-    SELECT * FROM Category
-</sql:query>
-<sql:query var="selectedCategory" dataSource="jdbc/affablebean">
-    SELECT name  FROM Category WHERE id = ?
-    <sql:param value="${pageContext.request.queryString}"/>
-</sql:query>
-<sql:query var="categoryProducts" dataSource="jdbc/affablebean">
-    SELECT * FROM Product WHERE category_id = ?
-    <sql:param value="${pageContext.request.queryString}"/>
-</sql:query>--%>
 <div id="categoryLeftColumn">
+
     <c:forEach var="category" items="${categories}">
 
         <c:choose>
-            <c:when test="${category.id == pageContext.request.queryString}">
+            <c:when test="${category.name == selectedCategory.name}">
                 <div class="categoryButton" id="selectedCategory">
                     <span class="categoryText">
                         ${category.name}
@@ -77,9 +31,9 @@
 </div>
 
 <div id="categoryRightColumn">
+
     <p id="categoryTitle">
-        <span style="background-color: #f5eabe; padding: 7px; position: relative;">
-            ${selectedCategory.name}</span>
+        <span style="background-color: #f5eabe; padding: 7px;">${selectedCategory.name}</span>
     </p>
 
     <table id="productTable">
@@ -89,22 +43,24 @@
             <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
                 <td>
                     <img src="${initParam.productImagePath}${product.name}.png"
-                         alt="image of ${product.name}">
+                        alt="image of ${product.name}">
                 </td>
+
                 <td>
                     ${product.name}
                     <br>
                     <span class="smallText">${product.description}</span>
                 </td>
-                <td>
-                    &euro; ${product.price} / unit
-                </td>
+
+                <td>&euro; ${product.price}</td>
+
                 <td>
                     <form action="addToCart" method="post">
                         <input type="hidden"
                                name="productId"
                                value="${product.id}">
                         <input type="submit"
+                               name="submit"
                                value="add to cart">
                     </form>
                 </td>
@@ -114,11 +70,3 @@
 
     </table>
 </div>
-
-<%--<div id="footer">
-    <hr>
-    <p id="footerText">[ footer text ]</p>
-</div>
-</div>
-</body>
-</html>--%>

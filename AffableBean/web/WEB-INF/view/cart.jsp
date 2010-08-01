@@ -1,135 +1,104 @@
 <%--
     Document   : cart
-    Created on : Jun 9, 2010, 3:59:32 PM
+    Created on : May 20, 2010, 12:20:12 AM
     Author     : tgiunipero
 --%>
 
-<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/affablebean.css">
-        <title>The Affable Bean</title>
-    </head>
-    <body>
-        <div id="main">
-            <div id="header">
-                <div id="widgetBar">
+<div id="singleColumn">
 
-                    <div class="headerWidget">
-                        [ language toggle ]
-                    </div>
+    <c:choose>
+        <c:when test="${cart.numberOfItems > 1}">
+            <p>Your shopping cart contains ${cart.numberOfItems} items.</p>
+        </c:when>
+        <c:when test="${cart.numberOfItems == 1}">
+            <p>Your shopping cart contains ${cart.numberOfItems} item.</p>
+        </c:when>
+        <c:otherwise>
+            <p>Your shopping cart is empty.</p>
+        </c:otherwise>
+    </c:choose>
 
-                    <div class="headerWidget"></div>
+    <div id="actionBar">
+        <%-- clear cart widget --%>
+        <c:if test="${!empty cart && cart.numberOfItems != 0}">
+            <a href="viewCart?clear=true" class="bubble hMargin">clear cart</a>
+        </c:if>
 
-                    <div class="headerWidget">
-                        [ shopping cart widget ]
-                    </div>
+        <%-- continue shopping widget --%>
+        <c:set var="value">
+            <c:choose>
+                <%-- if 'selectedCategory' session object exists, send user to previously viewed category --%>
+                <c:when test="${!empty selectedCategory}">
+                    category
+                </c:when>
+                <%-- otherwise send user to welcome page --%>
+                <c:otherwise>
+                    index.jsp
+                </c:otherwise>
+            </c:choose>
+        </c:set>
 
-                </div>
+        <a href="${value}" class="bubble hMargin">continue shopping</a>
 
-                <a href="#">
-                    <img src="#" id="logo" alt="Affable Bean logo">
-                </a>
+        <%-- checkout widget --%>
+        <c:if test="${!empty cart && cart.numberOfItems != 0}">
+            <a href="checkout" class="bubble hMargin">proceed to checkout &#x279f;</a>
+        </c:if>
+    </div>
 
-                <img src="#" id="logoText" alt="the affable bean">
-            </div>--%>
+    <c:if test="${!empty cart && cart.numberOfItems != 0}">
 
-            <div id="centerColumn">
+      <h4 id="subtotal">subtotal: &euro; ${cart.subtotal}</h4>
 
-                <p>Your shopping cart contains x items.</p>
+      <table id="cartTable">
 
-                <div id="actionBar">
-                    <a href="#" class="bubble hMargin">clear cart</a>
-                    <a href="#" class="bubble hMargin">continue shopping</a>
-                    <a href="#" class="bubble hMargin">proceed to checkout</a>
-                </div>
+        <tr class="header">
+            <th>product</th>
+            <th>name</th>
+            <th>price</th>
+            <th>quantity</th>
+        </tr>
 
-                <h4 id="subtotal">[ subtotal: xxx ]</h4>
+        <c:forEach var="cartItem" items="${cart.items}" varStatus="iter">
 
-                <table id="cartTable">
+          <c:set var="product" value="${cartItem.product}"/>
 
-                    <tr class="header">
-                        <th>product</th>
-                        <th>name</th>
-                        <th>price</th>
-                        <th>quantity</th>
-                    </tr>
+          <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
+            <td>
+              <img src="${initParam.productImagePath}${product.name}.png"
+                   alt="image of ${product.name}">
+            </td>
 
-                    <tr>
-                        <td class="lightBlue">
-                            <img src="#" alt="product image">
-                        </td>
-                        <td class="lightBlue">[ product name ]</td>
-                        <td class="lightBlue">[ price ]</td>
-                        <td class="lightBlue">
+            <td>${product.name}</td>
 
-                            <form action="updateCart" method="post">
-                                <input type="text"
-                                       maxlength="2"
-                                       size="2"
-                                       value="1"
-                                       name="quantity">
-                                <input type="submit"
-                                       name="submit"
-                                       value="update button">
-                            </form>
-                        </td>
-                    </tr>
+            <td>
+                &euro; ${cartItem.total}
+                <br>
+                <span class="smallText">( &euro; ${product.price} / unit )</span>
+            </td>
 
-                     <tr>
-                        <td class="white">
-                            <img src="#" alt="product image">
-                        </td>
-                        <td class="white">[ product name ]</td>
-                        <td class="white">[ price ]</td>
-                        <td class="white">
+            <td>
+                <form action="updateCart" method="post">
+                    <input type="hidden"
+                           name="productId"
+                           value="${product.id}">
+                    <input type="text"
+                           maxlength="2"
+                           size="2"
+                           value="${cartItem.quantity}"
+                           name="quantity"
+                           style="margin:5px">
+                    <input type="submit"
+                           name="submit"
+                           value="update">
+                </form>
+            </td>
+          </tr>
 
-                            <form action="updateCart" method="post">
-                                <input type="text"
-                                       maxlength="2"
-                                       size="2"
-                                       value="1"
-                                       name="quantity">
-                                <input type="submit"
-                                       name="submit"
-                                       value="update button">
-                            </form>
-                        </td>
-                    </tr>
+        </c:forEach>
 
-                    <tr>
-                        <td class="lightBlue">
-                            <img src="#" alt="product image">
-                        </td>
-                        <td class="lightBlue">[ product name ]</td>
-                        <td class="lightBlue">[ price ]</td>
-                        <td class="lightBlue">
+      </table>
 
-                            <form action="updateCart" method="post">
-                                <input type="text"
-                                       maxlength="2"
-                                       size="2"
-                                       value="1"
-                                       name="quantity">
-                                <input type="submit"
-                                       name="submit"
-                                       value="update button">
-                            </form>
-                        </td>
-                    </tr>
-
-                </table>
-
-            </div>
-
-<%--            <div id="footer">
-                <hr>
-                <p id="footerText">[ footer text ]</p>
-            </div>
-        </div>
-    </body>
-</html>--%>
+    </c:if>
+</div>
