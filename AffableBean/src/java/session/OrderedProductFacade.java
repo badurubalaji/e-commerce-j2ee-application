@@ -62,4 +62,9 @@ public class OrderedProductFacade {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    // manually created
+    public List<OrderedProduct> findByOrderId(Object id) {
+        return em.createNamedQuery("OrderedProduct.findByCustomerOrderId").setParameter("customerOrderId", id).getResultList();
+    }
+
 }

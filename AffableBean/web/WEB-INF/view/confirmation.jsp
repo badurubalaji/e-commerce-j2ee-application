@@ -4,72 +4,92 @@
     Author     : tgiunipero
 --%>
 
-<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/affablebean.css">
-        <title>The Affable Bean</title>
-    </head>
-    <body>
-        <div id="main">
-            <div id="header">
-                <div id="widgetBar">
+<div id="singleColumn">
 
-                    <div class="headerWidget">
-                        [ language toggle ]
-                    </div>
+    <p id="confirmationText">
+        <strong>Your order has been successfully processed and will be delivered within 24 hours.</strong>
+        <br><br>
+        Please keep a note of your confirmation number:
+        <strong>${orderRecord.confirmationNumber}</strong>
+        <br>
+        If you have a query concerning your order, feel free to <a href="#">contact us</a>.
+        <br><br>
+        Thank you for shopping at the Affable Bean Green Grocer!
+    </p>
 
-                    <div class="headerWidget"></div>
+    <div class="summaryColumn" >
 
-                    <div class="headerWidget">
-                        [ shopping cart widget ]
-                    </div>
+        <table id="orderSummaryTable" class="detailsTable">
+            <tr class="header">
+                <th colspan="3">order summary</th>
+            </tr>
 
-                </div>
+            <tr class="tableHeading">
+                <td>product</td>
+                <td>quantity</td>
+                <td>price</td>
+            </tr>
 
-                <a href="#">
-                    <img src="#" id="logo" alt="Affable Bean logo">
-                </a>
+            <c:forEach var="orderedProduct" items="${orderedProducts}" varStatus="iter">
 
-                <img src="#" id="logoText" alt="the affable bean">
-            </div>--%>
+                <tr class="${((iter.index % 2) != 0) ? 'lightBlue' : 'white'}">
+                    <td>${products[iter.index].name}</td>
+                    <td class="quantityColumn">
+                        ${orderedProduct.quantity}
+                    </td>
+                    <td class="confirmationPriceColumn">
+                        &euro; ${products[iter.index].price * orderedProduct.quantity}
+                    </td>
+                </tr>
 
-            <div id="singleColumn">
+            </c:forEach>
 
-                <p id="confirmationText">
-                    [ text ]
-                    <br><br>
-                    [ order reference number ]
-                </p>
+            <tr class="lightBlue"><td colspan="3" style="padding: 0 20px"><hr></td></tr>
 
-                <div class="summaryColumn" >
+            <tr class="lightBlue">
+                <td colspan="2" id="deliverySurchargeCellLeft"><strong>delivery surcharge:</strong></td>
+                <td id="deliverySurchargeCellRight">&euro; ${initParam.deliverySurcharge}</td>
+            </tr>
 
-                    <table id="orderSummaryTable" class="detailsTable" >
-                        <tr class="header">
-                            <th style="padding:10px">[ order summary table ]</th>
-                        </tr>
-                    </table>
+            <tr class="lightBlue">
+                <td colspan="2" id="totalCellLeft"><strong>total:</strong></td>
+                <td id="totalCellRight">&euro; ${orderRecord.amount}</td>
+            </tr>
 
-                </div>
+            <tr class="lightBlue"><td colspan="3" style="padding: 0 20px"><hr></td></tr>
 
-                <div class="summaryColumn" >
+            <tr class="lightBlue">
+                <td colspan="3" id="dateProcessedRow"><strong>date processed:</strong>
+                    ${orderRecord.dateCreated}
+                </td>
+            </tr>
+        </table>
 
-                    <table id="deliveryAddressTable" class="detailsTable">
-                        <tr class="header">
-                            <th style="padding:10px">[ customer details ]</th>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+    </div>
 
-            <%--<div id="footer">
-                <hr>
-                <p id="footerText">[ footer text ]</p>
-            </div>
-        </div>
-    </body>
-</html>--%>
+    <div class="summaryColumn" >
+
+        <table id="deliveryAddressTable" class="detailsTable">
+            <tr class="header">
+                <th colspan="3">delivery address</th>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="lightBlue">
+                    ${customer.name}
+                    <br>
+                    ${customer.address}
+                    <br>
+                    Prague ${customer.cityRegion}
+                    <br>
+                    <hr>
+                    <strong>email:</strong> ${customer.email}
+                    <br>
+                    <strong>phone:</strong> ${customer.phone}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
