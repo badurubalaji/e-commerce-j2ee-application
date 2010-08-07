@@ -47,6 +47,10 @@
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/purchase</url-pattern>
     </servlet-mapping>-->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>resources.messages</param-value>
+    </context-param>
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>

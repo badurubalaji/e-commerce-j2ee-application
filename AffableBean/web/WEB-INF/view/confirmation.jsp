@@ -4,7 +4,7 @@
     Author     : tgiunipero
 --%>
 
-
+<c:set var='view' value='/confirmation' scope='session' />
 <div id="singleColumn">
 
     <p id="confirmationText">

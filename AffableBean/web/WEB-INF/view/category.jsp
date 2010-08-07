@@ -3,6 +3,9 @@
     Created on : May 21, 2010, 12:20:23 AM
     Author     : tgiunipero
 --%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var='view' value='/category' scope='session' />
 
 
 <div id="categoryLeftColumn">
@@ -13,14 +16,14 @@
             <c:when test="${category.name == selectedCategory.name}">
                 <div class="categoryButton" id="selectedCategory">
                     <span class="categoryText">
-                        ${category.name}
+                        <fmt:message key="${category.name}"/>
                     </span>
                 </div>
             </c:when>
             <c:otherwise>
                 <a href="category?${category.id}" class="categoryButton">
                     <div class="categoryText">
-                        ${category.name}
+                        <fmt:message key="${category.name}"/>
                     </div>
                 </a>
             </c:otherwise>
@@ -33,7 +36,7 @@
 <div id="categoryRightColumn">
 
     <p id="categoryTitle">
-        <span style="background-color: #f5eabe; padding: 7px;">${selectedCategory.name}</span>
+        <span style="background-color: #f5eabe; padding: 7px;"><fmt:message key="${selectedCategory.name}"/></span>
     </p>
 
     <table id="productTable">
@@ -61,7 +64,7 @@
                                value="${product.id}">
                         <input type="submit"
                                name="submit"
-                               value="add to cart">
+                               value="<fmt:message key="label.addToCart"/>">
                     </form>
                 </td>
             </tr>

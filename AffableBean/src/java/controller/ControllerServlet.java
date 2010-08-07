@@ -123,9 +123,32 @@ public class ControllerServlet extends HttpServlet {
             // if user switches language
         } else if (userPath.equals("/chooseLanguage")) {
             // TODO: Implement language request
-        }
+            // get language choice
+            String language = request.getParameter("language");
 
-        // use RequestDispatcher to forward request internally
+            // place in session scope
+            session.setAttribute("language", language);
+
+            String userView = (String) session.getAttribute("view");
+
+            if ((userView != null)
+                    && (!userView.equals("/index"))
+                    && (!userView.equals("/confirmation"))) {  // session is destroyed before sending confirmation
+                // view, so not possible to change languages there
+                userPath = userView;
+            } else {
+
+                // if previous view is index, confirmation, or cannot be determined, send user to welcome page
+                try {
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return;
+            }
+            // use RequestDispatcher to forward request internally
+
+        }
         String url = "/WEB-INF/view" + userPath + ".jsp";
 
         try {
@@ -219,12 +242,12 @@ public class ControllerServlet extends HttpServlet {
 
                     userPath = "/confirmation";
 
-                // otherwise, send back to checkout page and display error
+                    // otherwise, send back to checkout page and display error
                 } else {
                     userPath = "/checkout";
                     request.setAttribute("orderFailureFlag", true);
                 }
-            }            
+            }
         }
 
         // use RequestDispatcher to forward request internally

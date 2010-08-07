@@ -1,5 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var='view' value='/index' scope='session' />
 <%--
     Document   : index
     Created on : Jun 9, 2010, 3:59:32 PM
@@ -45,9 +47,8 @@
 
 <div id="indexLeftColumn">
     <div id="welcomeText">
-        <p>[ welcome text ]</p>
-        categoryImagePath: ${initParam.categoryImagePath}
-        productImagePath: ${initParam.productImagePath}
+        <p style="font-size: larger"><fmt:message key='greeting'/></p>
+        <p><fmt:message key="introText"/></p>
     </div>
 </div>
 
@@ -55,8 +56,8 @@
     <c:forEach var="category" items="${categories}">
         <div class="categoryBox">
             <a href="category?${category.id}">
-                <span class="categoryLabelText">${category.name}</span>
-                <img src="${initParam.categoryImagePath}${category.name}.jpg" alt="${category.name}">
+                <span class="categoryLabelText"><fmt:message key="${category.name}"/></span>
+                <img src="${initParam.categoryImagePath}${category.name}.jpg" alt="<fmt:message key="${category.name}"/>">
             </a>
         </div>
     </c:forEach>

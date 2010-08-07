@@ -3,7 +3,7 @@
     Created on : May 21, 2010, 12:20:23 AM
     Author     : tgiunipero
 --%>
-
+<c:set var='view' value='/checkout' scope='session' />
 
 <div id="singleColumn">
 

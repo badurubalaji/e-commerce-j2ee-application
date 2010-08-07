@@ -3,7 +3,9 @@
     Created on : May 20, 2010, 12:20:12 AM
     Author     : tgiunipero
 --%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:set var='view' value='/cart' scope='session' />
 
 <div id="singleColumn">
 
@@ -22,7 +24,7 @@
     <div id="actionBar">
         <%-- clear cart widget --%>
         <c:if test="${!empty cart && cart.numberOfItems != 0}">
-            <a href="viewCart?clear=true" class="bubble hMargin">clear cart</a>
+            <a href="viewCart?clear=true" class="bubble hMargin"><fmt:message key="label.clearCart"/></a>
         </c:if>
 
         <%-- continue shopping widget --%>
@@ -39,17 +41,17 @@
             </c:choose>
         </c:set>
 
-        <a href="${value}" class="bubble hMargin">continue shopping</a>
+        <a href="${value}" class="bubble hMargin"><fmt:message key="label.continueShopping"/></a>
 
         <%-- checkout widget --%>
         <c:if test="${!empty cart && cart.numberOfItems != 0}">
-            <a href="checkout" class="bubble hMargin">proceed to checkout &#x279f;</a>
+            <a href="checkout" class="bubble hMargin"><fmt:message key="label.checkOut"/> &#x279f;</a>
         </c:if>
     </div>
 
     <c:if test="${!empty cart && cart.numberOfItems != 0}">
 
-      <h4 id="subtotal">subtotal: &euro; ${cart.subtotal}</h4>
+      <h4 id="subtotal"><fmt:message key="label.subTotal"/>: &euro; ${cart.subtotal}</h4>
 
       <table id="cartTable">
 
